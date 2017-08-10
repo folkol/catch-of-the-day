@@ -5,8 +5,17 @@ class Header extends React.Component {
 		console.log(this);
 		return (
 			<header className="top">
-				<h1>Catch of the Day</h1>
-				<h3 className="tagline">{this.props.tagline}</h3>
+				<h1>
+					Catch
+					<span className="ofThe">
+						<span className="of">of</span>
+						<span className="the">the</span>
+					</span>
+					Day
+				</h1>
+				<h3 className="tagline">
+					<span>{this.props.tagline}</span>
+				</h3>
 			</header>
 		);
 	}
