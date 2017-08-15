@@ -7,16 +7,18 @@ class App extends React.Component {
 	constructor() {
 		super();
 		this.addFish = this.addFish.bind(this);
-		this.state = {};
-		this.order = {};
+		this.state = {
+			fishes: {},
+			order: {}
+		};
 	}
 	addFish(fish) {
 		console.log("Adding fish");
 		console.log(fish);
-		const state = {...this.state};
+		const fishes = {...this.state.fishes};
 		const timestamp = Date.now();
-		state[`fish-${timestamp}`] = fish;
-		this.setState({state: state});
+		fishes[`fish-${timestamp}`] = fish;
+		this.setState({fishes: fishes});
 	}
 	render() {
 		return (
