@@ -6,7 +6,19 @@ class Order extends React.Component {
 		const total = Object.keys(this.props.order).reduce((acc, key) => {
 			return acc + this.props.fishes[key].price * this.props.order[key];
 		}, 0);
-		return <p>Order: {formatPrice(total)}</p>
+		return (
+			<div>
+				<h2>My Order</h2>
+				{
+					Object
+						.keys(this.props.order)
+						.map(key => {
+							return <div>{this.props.fishes[key].name}</div>;
+						})
+				}
+				<p>Total: {formatPrice(total)}</p>
+			</div>
+		)
 	}
 }
 
