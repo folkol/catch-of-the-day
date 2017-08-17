@@ -30,7 +30,7 @@ class Inventory extends React.Component {
 				<form className="fish-edit">
 					<input type="text" placeholder="Fish Name" name="name" defaultValue={fish.name} onChange={e => this.changeHandler(e, key)} />
 					<input type="text" placeholder="Fish Price" name="price" defaultValue={fish.price} onChange={e => this.changeHandler(e, key)} />
-					<select name="status" onChange={e => this.changeHandler(e, key)}>
+					<select name="status" value={fish.status} onChange={e => this.changeHandler(e, key)}>
 						<option value="available">Fresh!</option>
 						<option value="unavailable">Sold Out!</option>
 					</select>
