@@ -9,7 +9,7 @@ class Order extends React.Component {
 		const price = amount * (fish ? fish.price : 0);
 		return (
 			<li key={key}>
-			{text}
+			{text}<button type="button" onClick={() => this.props.removeFromOrder(key)}>[x]</button>
 			{fish ? <span>{formatPrice(price)}</span> : ''}
 			</li>
 		)

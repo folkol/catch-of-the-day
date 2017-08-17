@@ -15,6 +15,7 @@ class App extends React.Component {
 		this.removeFish = this.removeFish.bind(this);
 		this.loadSamples = this.loadSamples.bind(this);
 		this.addToOrder = this.addToOrder.bind(this);
+		this.removeFromOrder = this.removeFromOrder.bind(this);
 		this.state = {
 			fishes: {},
 			order: {}
@@ -59,6 +60,13 @@ class App extends React.Component {
 		this.setState({order});
 	}
 
+	removeFromOrder(key) {
+		console.log('Removing key from order', key);
+		const updatedOrder = {...this.state.order};
+		delete updatedOrder[key];
+		this.setState({ order: updatedOrder });
+	}
+
 	componentWillMount() {
 		this.ref = base.syncState(`${this.props.params.storeId}/fishes`, {
 			context: this,
@@ -95,7 +103,7 @@ class App extends React.Component {
 					}
 					</ul>
 				</div>
-				<Order fishes={this.state.fishes} order={this.state.order} />
+				<Order fishes={this.state.fishes} order={this.state.order} removeFromOrder={this.removeFromOrder} />
 				<Inventory fishes={this.state.fishes} addFish={this.addFish} updateFish={this.updateFish} removeFish={this.removeFish} loadSamples={this.loadSamples} />
 			</div>
 		);
