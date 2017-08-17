@@ -7,15 +7,19 @@ class Order extends React.Component {
 		const amount = this.props.order[key];
 		return (
 			<li key={key}>
-				{amount}lbs of {fish.name}
-				<span className="price">{formatPrice(amount * fish.price)}</span>
+				{amount}lbs of {fish ? fish.name : 'fish'}
+				<span className="price">{formatPrice(amount * (fish ? fish.price : 0))}</span>
 			</li>
 		)
 	}
 
 	render() {
 		const total = Object.keys(this.props.order).reduce((acc, key) => {
-			return acc + this.props.fishes[key].price * this.props.order[key];
+			const fish = this.props.fishes[key];
+			if(fish) {
+				return acc + this.props.fishes[key].price * this.props.order[key];
+			}
+			return acc;
 		}, 0);
 		return (
 			<div className="order-wrapp">
