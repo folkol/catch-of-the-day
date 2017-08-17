@@ -23,14 +23,14 @@ class Inventory extends React.Component {
 		return (
 			<li key={key}>
 				<form className="fish-edit">
-					<input type="text" placeholder="Fish Name" name="name" defaultValue={fish.name} onChange={e => this.changeHandler(e, key)} />
-					<input type="text" placeholder="Fish Price" name="price" defaultValue={fish.price} onChange={e => this.changeHandler(e, key)} />
+					<input type="text" placeholder="Fish Name" name="name" value={fish.name} onChange={e => this.changeHandler(e, key)} />
+					<input type="text" placeholder="Fish Price" name="price" value={fish.price} onChange={e => this.changeHandler(e, key)} />
 					<select name="status" onChange={e => this.changeHandler(e, key)}>
 						<option value="available">Fresh!</option>
 						<option value="unavailable">Sold Out!</option>
 					</select>
-					<textarea type="text" placeholder="Fish Desc" name="desc" defaultValue={fish.desc} onChange={e => this.changeHandler(e, key)}></textarea>
-					<input type="text" placeholder="Fish Image" name="image" defaultValue={fish.image} onChange={e => this.changeHandler(e, key)}/>
+					<textarea type="text" placeholder="Fish Desc" name="desc" value={fish.desc} onChange={e => this.changeHandler(e, key)}></textarea>
+					<input type="text" placeholder="Fish Image" name="image" value={fish.image} onChange={e => this.changeHandler(e, key)}/>
 				</form>
 			</li>
 		)
