@@ -5,10 +5,12 @@ class Order extends React.Component {
 	renderOrderItem(key) {
 		const fish = this.props.fishes[key];
 		const amount = this.props.order[key];
+		const text = fish ? `${amount}lbs of ${fish.name || 'fish'}` : 'Sorry, fish not available.';
+		const price = amount * (fish ? fish.price : 0);
 		return (
 			<li key={key}>
-				{amount}lbs of {fish ? fish.name : 'fish'}
-				<span className="price">{formatPrice(amount * (fish ? fish.price : 0))}</span>
+			{text}
+			{fish ? <span>{formatPrice(price)}</span> : ''}
 			</li>
 		)
 	}
