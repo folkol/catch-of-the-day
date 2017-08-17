@@ -5,12 +5,23 @@ class Order extends React.Component {
 	renderOrderItem(key) {
 		const fish = this.props.fishes[key];
 		const amount = this.props.order[key];
-		const text = fish ? `${amount}lbs of ${fish.name || 'fish'}` : 'Sorry, fish not available.';
-		const price = amount * (fish ? fish.price : 0);
+
+		const removeButton = <button type="button" onClick={() => this.props.removeFromOrder(key)}>&times;</button>;
+		const available = fish && fish.status === 'available';
+
+		if(!available) {
+			return (
+				<li key={key}>
+				Sorry, fish no longer available.{removeButton}
+				</li>
+			)
+		}
+
 		return (
 			<li key={key}>
-			{text}<button type="button" onClick={() => this.props.removeFromOrder(key)}>[x]</button>
-			{fish ? <span>{formatPrice(price)}</span> : ''}
+			{amount}lbs of {fish.name}
+			{removeButton}
+			<span>{formatPrice(fish.price * amount)}</span>
 			</li>
 		)
 	}
@@ -18,7 +29,7 @@ class Order extends React.Component {
 	render() {
 		const total = Object.keys(this.props.order).reduce((acc, key) => {
 			const fish = this.props.fishes[key];
-			if(fish) {
+			if(fish && fish.status === 'available') {
 				return acc + this.props.fishes[key].price * this.props.order[key];
 			}
 			return acc;
