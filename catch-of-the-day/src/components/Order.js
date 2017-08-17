@@ -20,7 +20,16 @@ class Order extends React.Component {
 
 		return (
 			<li key={key}>
-			{amount}lbs of {fish.name}
+			<CSSTransitionGroup
+				component="span"
+				className="count"
+				transitionName="count"
+				transitionEnterTimeout={250}
+				transitionLeaveTimeout={250}
+			>
+				<span key={amount}>{amount}</span>
+			</CSSTransitionGroup>
+			lbs of {fish.name}
 			{removeButton}
 			<span>{formatPrice(fish.price * amount)}</span>
 			</li>
