@@ -591,7 +591,9 @@ input[type=submit].github,
 button.facebook,
 input[type=submit].facebook,
 button.twitter,
-input[type=submit].twitter {
+input[type=submit].twitter,
+button.email,
+input[type=submit].email {
   border: 0;
   display: block;
   margin-bottom: 2rem;
@@ -622,6 +624,14 @@ input[type=submit].twitter {
 button.twitter:after,
 input[type=submit].twitter:after {
   background: #2c8dd0;
+}
+button.email,
+input[type=submit].email {
+  background: #808080;
+}
+button.email:after,
+input[type=submit].email:after {
+  background: #666;
 }
 .store-selector {
   background: #fff;

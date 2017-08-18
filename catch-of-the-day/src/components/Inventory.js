@@ -1,5 +1,5 @@
 import React from 'react';
-
+import base from '../base';
 import AddFishForm from './AddFishForm';
 
 class Inventory extends React.Component {
@@ -7,6 +7,20 @@ class Inventory extends React.Component {
 		super();
 		this.renderEditFish = this.renderEditFish.bind(this);
 		this.changeHandler = this.changeHandler.bind(this);
+		this.authHandler = this.authHandler.bind(this);
+		this.logout = this.logout.bind(this);
+
+		this.state = {
+			uid: undefined
+		}
+	}
+
+	componentDidMount() {
+		base.onAuth(user => {
+			if(user) {
+				this.authHandler(undefined, { user });
+			}
+		})
 	}
 
 	changeHandler(e, key) {
@@ -42,10 +56,72 @@ class Inventory extends React.Component {
 		)
 	}
 
+	authenticate(provider) {
+		console.log(`Trying to log in with ${provider}`);
+		console.log(base);
+		base.authWithOAuthPopup(provider, this.authHandler);
+	}
+
+	authHandler(err, authData) {
+		if(err) {
+			console.error(err);
+			return;
+		}
+
+		const storeRef = base.database().ref(this.props.storeId);
+		storeRef.once('value', snapshot => {
+			const data = snapshot.val() || {};
+			if(!data.owner) {
+				storeRef.set({
+					owner: authData.user.uid
+				})
+			}
+
+			this.setState({
+				uid: authData.user.uid,
+				owner: data.owner || authData.user.uid
+			});
+		});
+
+	}
+
+	renderLogin() {
+		return (
+			<nav className="login">
+				<h2>Inventory</h2>
+				<p>Sign in to manage your store's inventory</p>
+				<button className="github" onClick={() => this.authenticate('github')}>Log In with GitHub</button>
+				<button className="facebook" onClick={() => this.authenticate('facebook')}>Log In with Facebook</button>
+				<button className="email" onClick={() => this.authenticate('email')}>Log In with e-mail</button>
+			</nav>
+		)
+	}
+
+	logout() {
+		base.unauth();
+		this.setState({uid: null});
+	}
+
 	render() {
+		const button = <button onClick={this.logout}>Log out</button>
+
+		if(!this.state.uid) {
+			return <div>{this.renderLogin()}</div>
+		}
+
+		if(this.state.uid !== this.state.owner) {
+			return (
+				<div>
+					<div>Sorry, you are not the owner.</div>
+					{button}
+				</div>
+			)
+		}
+
 		return (
 			<div>
 				<h2>Inventory</h2>
+				{button}
 				<ul>
 				{
 					Object
@@ -64,7 +140,8 @@ Inventory.propTypes = {
 	fishes: React.PropTypes.object.isRequired,
 	addFish: React.PropTypes.func.isRequired,
 	updateFish: React.PropTypes.func.isRequired,
-	removeFish: React.PropTypes.func.isRequired
+	removeFish: React.PropTypes.func.isRequired,
+	storeId: React.PropTypes.string.isRequired
 }
 
 export default Inventory;
